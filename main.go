@@ -2,35 +2,49 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"kdb/api"
+	docs "kdb/docs"
 )
 
+// @title           Knowledge Database
+// @version         1.0
+// @description     Knowledge Database
+// @termsOfService
+
+// @contact.name   API Support
+
+// @license.name  Apache 2.0
+// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host      localhost:8080
 func main() {
 	router := gin.Default()
+	docs.SwaggerInfo.Title = "Knowledge Database"
 
-	router.GET("/knowledgeentry", api.GetAll)
-	router.GET("/knowledgeentry/:id", api.GetById)
-	router.POST("/knowledgeentry", api.Create)
-	router.PUT("/knowledgeentry/:id", api.Update)
-	router.DELETE("/knowledgeentry/:id", api.Delete)
+	router.GET("/knowledgeentry", api.GetAllEntries)
+	router.GET("/knowledgeentry/:id", api.GetEntryById)
+	router.POST("/knowledgeentry", api.CreateEntry)
+	router.PUT("/knowledgeentry/:id", api.UpdateEntry)
+	router.DELETE("/knowledgeentry/:id", api.DeleteEntry)
+	router.GET("/knowledgeentry/versions/:id", api.GetAllEntryVersionsByEntry)
+	router.GET("/knowledgeentry/version/:id", api.GetEntryVersionById)
 
-	router.GET("/knowledgeentryversion", api.GetAll)
-	router.GET("/knowledgeentryversion/:id", api.GetById)
-	router.POST("/knowledgeentryversion", api.Create)
-	router.PUT("/knowledgeentryversion/:id", api.Update)
-	router.DELETE("/knowledgeentryversion/:id", api.Delete)
+	router.GET("/community", api.GetAllCommunities)
+	router.GET("/community/:id", api.GetCommunityById)
+	router.POST("/community", api.CreateCommunity)
+	router.PUT("/community/:id", api.UpdateCommunity)
+	router.DELETE("/community/:id", api.DeleteCommunity)
+	router.POST("/community/:id/employee/:id", api.AddEmployee)
+	router.DELETE("/community/:id/employee/:id", api.DeleteEmployee)
 
-	router.GET("/space", api.GetAll)
-	router.GET("/space/:id", api.GetById)
-	router.POST("/space", api.Create)
-	router.PUT("/space/:id", api.Update)
-	router.DELETE("/space/:id", api.Delete)
+	router.GET("/employee", api.GetAllEmployees)
+	router.GET("/employee/:id", api.GetEmployeeById)
+	router.POST("/employee", api.CreateEmployee)
+	router.PUT("/employee/:id", api.UpdateEmployee)
+	router.DELETE("/employee/:id", api.DeleteEmployee)
 
-	router.GET("/user", api.GetAll)
-	router.GET("/user/:id", api.GetById)
-	router.POST("/user", api.Create)
-	router.PUT("/user/:id", api.Update)
-	router.DELETE("/user/:id", api.Delete)
-
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	router.Run(":8080")
 }
