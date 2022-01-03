@@ -32,7 +32,7 @@ func (repository *CommunityRepository) GetAllCommunitys() ([]model.Community, er
 func (repository *CommunityRepository) GetCommunityById(id string) (*model.Community, error) {
 	checkIfAlive()
 
-	query := fmt.Sprintf("SELECT * FROM kdb.Community WHERE kdb.Employee.CommunityId =  %s;", id)
+	query := fmt.Sprintf("SELECT * FROM kdb.Community WHERE kdb.Community.CommunityId =  %s;", id)
 
 	// Execute query
 	rows, err := db.QueryContext(ctx, query)
@@ -72,7 +72,7 @@ func (repository *CommunityRepository) GetCommunityByName(name string) (*model.C
 func (repository *CommunityRepository) AddCommunity(community *model.Community) (*model.Community, error) {
 	checkIfAlive()
 
-	query := fmt.Sprintf("INSERT INTO kdb.Community([Name],[Admin]) VALUES('%s', %d)", community.Name, community.AdminId)
+	query := fmt.Sprintf("INSERT INTO kdb.Community([Name],[AdminId]) VALUES('%s', %d)", community.Name, community.AdminId)
 
 	// Execute query
 	rows, err := db.QueryContext(ctx, query)
@@ -138,7 +138,7 @@ func (repository *CommunityRepository) AddEmployee(cId string, eId string) error
 func (repository *CommunityRepository) RemoveEmployee(cId string, eId string) error {
 	checkIfAlive()
 
-	query := fmt.Sprintf("DELETE FROM [kdb].[EmployeeCommunity] WHERE CommunityId = %d && EmployeeId = %d", cId, eId)
+	query := fmt.Sprintf("DELETE FROM [kdb].[EmployeeCommunity] WHERE CommunityId = %s AND EmployeeId = %s", cId, eId)
 
 	// Execute query
 	rows, err := db.QueryContext(ctx, query)
@@ -149,6 +149,26 @@ func (repository *CommunityRepository) RemoveEmployee(cId string, eId string) er
 	defer rows.Close()
 
 	return nil
+}
+
+func (repository *CommunityRepository) GetAllCommunityMembersById(id string) ([]model.Employee, error) {
+	checkIfAlive()
+
+	query := fmt.Sprintf("SELECT e.EmployeeId, e.Name, e.UserId FROM kdb.Employee e JOIN kdb.EmployeeCommunity ec ON ec.EmployeeID = e.EmployeeId JOIN kdb.Community c ON ec.CommunityID = c.CommunityId WHERE ec.CommunityID = %s;", id)
+
+	// Execute query
+	rows, err := db.QueryContext(ctx, query)
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var l []model.Employee
+
+	scan.Rows(&l, rows)
+
+	return l, nil
 }
 
 func (repository *CommunityRepository) InitCommunityRepository() CommunityRepository {

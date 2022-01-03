@@ -4,6 +4,7 @@ type KnowledgeEntry struct {
 	KnowledgeEntryId string `json:"id"`
 	Title            string `json:"title"`
 	Content          string `json:"content"`
-	Creator          int    `json:"creator"`
+	CreatorId        int    `json:"creatorid"`
 	CommunityId      int    `json:"communityid"`
+	Deleted          bool   `json:"deleted"`
 }

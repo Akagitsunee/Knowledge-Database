@@ -99,7 +99,7 @@ func CreateEntry(c *gin.Context) {
 // @Tags         KnowledgeEntry
 // @Accept       json
 // @Produce      json
-// @Param id path int true "ID of the KnowledgeEntryVersion to be updated"
+// @Param id path int true "ID of the KnowledgeEntry to be updated"
 // @Param KnowledgeEntryVersion body model.KnowledgeEntryVersion true "Updated knowledgeentry"
 // @Success      200  {object}   model.KnowledgeEntryVersion
 // @Failure      400  {object}  httputil.HTTPError
@@ -133,7 +133,7 @@ func UpdateEntry(c *gin.Context) {
 // @Failure      400  {object}  httputil.HTTPError
 // @Failure      404  {object}  httputil.HTTPError
 // @Failure      500  {object}  httputil.HTTPError
-// @Router       /knowledgeentry [delete]
+// @Router       /knowledgeentry/delete/{id}  [delete]
 func DeleteEntry(c *gin.Context) {
 	id := c.Param("id")
 
@@ -193,6 +193,31 @@ func GetEntryVersionById(c *gin.Context) {
 		c.AbortWithStatus(404)
 		return
 	}
+
+	if err != nil {
+		c.AbortWithStatus(500)
+		return
+	}
+
+	c.JSON(http.StatusOK, e)
+}
+
+// GetEntriesByCommunity godoc
+// @Summary      GetEntriesByCommunity
+// @Description  GetEntriesByCommunity
+// @Tags         KnowledgeEntry
+// @Accept       json
+// @Produce      json
+// @Param        id path int  true  "Id of Community"  Format(int)
+// @Success      200  {array}  model.KnowledgeEntry
+// @Failure      400  {object}  httputil.HTTPError
+// @Failure      404  {object}  httputil.HTTPError
+// @Failure      500  {object}  httputil.HTTPError
+// @Router       /knowledgeentry/community/{id} [get]
+func GetEntriesByCommunity(c *gin.Context) {
+	id := c.Param("id")
+
+	e, err := knowledgeEntryRepository.GetKnowledgeEntryVersionsByCommunity(id)
 
 	if err != nil {
 		c.AbortWithStatus(500)

@@ -47,6 +47,5 @@ func checkIfAlive() error {
 	if err != nil {
 		return err
 	}
-	fmt.Println("aleive")
 	return nil
 }

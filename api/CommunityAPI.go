@@ -159,7 +159,7 @@ func DeleteCommunity(c *gin.Context) {
 // @Failure      400  {object}  httputil.HTTPError
 // @Failure      404  {object}  httputil.HTTPError
 // @Failure      500  {object}  httputil.HTTPError
-// @Router       /community/{id}/employee/{id} [post]
+// @Router       /cty/{communityId}/employee/{employeeId} [post]
 func AddEmployee(c *gin.Context) {
 	cId := c.Param("communityId")
 	eId := c.Param("employeeId")
@@ -171,7 +171,7 @@ func AddEmployee(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, "")
+	c.JSON(http.StatusOK, "ok")
 }
 
 // RemoveEmployee godoc
@@ -186,7 +186,7 @@ func AddEmployee(c *gin.Context) {
 // @Failure      400  {object}  httputil.HTTPError
 // @Failure      404  {object}  httputil.HTTPError
 // @Failure      500  {object}  httputil.HTTPError
-// @Router       /community/{id}/employee/{id} [delete]
+// @Router       /cty/{communityId}/employee/{employeeId} [delete]
 func RemoveEmployee(c *gin.Context) {
 	cId := c.Param("communityId")
 	eId := c.Param("employeeId")
@@ -199,4 +199,29 @@ func RemoveEmployee(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, "")
+}
+
+// GetAllCommunityMemebers godoc
+// @Summary      GetAllCommunityMemebers
+// @Description  GetAllCommunityMemebers
+// @Tags         Community
+// @Accept       json
+// @Produce      json
+// @Param        id path int  true  "Id of community"  Format(int)
+// @Success      200  {array}   model.Employee
+// @Failure      400  {object}  httputil.HTTPError
+// @Failure      404  {object}  httputil.HTTPError
+// @Failure      500  {object}  httputil.HTTPError
+// @Router       /community/employees/{id} [get]
+func GetAllCommunityMemebers(c *gin.Context) {
+	id := c.Param("id")
+
+	e, err := communityRepository.GetAllCommunityMembersById(id)
+
+	if err != nil {
+		c.AbortWithStatus(500)
+		return
+	}
+
+	c.JSON(http.StatusOK, e)
 }

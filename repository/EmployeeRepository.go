@@ -88,7 +88,7 @@ func (repository *EmployeeRepository) AddEmployee(employee *model.Employee) (*mo
 func (repository *EmployeeRepository) DeleteEmployee(id string) error {
 	checkIfAlive()
 
-	query := fmt.Sprintf("DELETE FROM [kdb].[Employee] WHERE EmployeeId = %s", id)
+	query := fmt.Sprintf("UPDATE [kdb].[Employee] SET [Disabled] = 1 WHERE EmployeeId = %s", id)
 
 	// Execute query
 	rows, err := db.QueryContext(ctx, query)

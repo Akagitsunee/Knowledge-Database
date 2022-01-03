@@ -1,0 +1,777 @@
+definitions:
+  httputil.HTTPError:
+    properties:
+      code:
+        example: 400
+        type: integer
+      message:
+        example: status bad request
+        type: string
+    type: object
+  model.Community:
+    properties:
+      adminid:
+        type: integer
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  model.Employee:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      userId:
+        type: string
+    type: object
+  model.KnowledgeEntry:
+    properties:
+      communityid:
+        type: integer
+      content:
+        type: string
+      creatorid:
+        type: integer
+      id:
+        type: string
+      title:
+        type: string
+    type: object
+  model.KnowledgeEntryVersion:
+    properties:
+      content:
+        type: string
+      editorId:
+        type: integer
+      entryid:
+        type: integer
+      id:
+        type: string
+      title:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    name: API Support
+  description: Knowledge Database
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Knowledge Database
+  version: "1.0"
+paths:
+  /community:
+    get:
+      consumes:
+      - application/json
+      description: get communities
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Community'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: List communities
+      tags:
+      - Community
+    post:
+      consumes:
+      - application/json
+      description: CreateCommunity
+      parameters:
+      - description: Create community
+        in: body
+        name: community
+        required: true
+        schema:
+          $ref: '#/definitions/model.Community'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Community'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: CreateCommunity
+      tags:
+      - Community
+  /community/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: DeleteCommunity
+      parameters:
+      - description: ID of the community to be deleted
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: DeleteCommunity
+      tags:
+      - Community
+    get:
+      consumes:
+      - application/json
+      description: GetCommunityById
+      parameters:
+      - description: Id of community
+        format: int
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Community'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: GetCommunityById
+      tags:
+      - Community
+    put:
+      consumes:
+      - application/json
+      description: UpdateCommunity
+      parameters:
+      - description: ID of the community to be updated
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated community
+        in: body
+        name: community
+        required: true
+        schema:
+          $ref: '#/definitions/model.Community'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Community'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: UpdateCommunity
+      tags:
+      - Community
+  /community/employees/{id}:
+    get:
+      consumes:
+      - application/json
+      description: GetAllCommunityMemebers
+      parameters:
+      - description: Id of community
+        format: int
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Employee'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: GetAllCommunityMemebers
+      tags:
+      - Community
+  /cty/{communityId}/employee/{employeeId}:
+    delete:
+      consumes:
+      - application/json
+      description: RemoveEmployee
+      parameters:
+      - description: Community ID
+        in: path
+        name: communityId
+        required: true
+        type: integer
+      - description: employee ID
+        in: path
+        name: employeeId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: RemoveEmployee
+      tags:
+      - Community
+    post:
+      consumes:
+      - application/json
+      description: AddEmployee
+      parameters:
+      - description: Community ID
+        in: path
+        name: communityId
+        required: true
+        type: integer
+      - description: employee ID
+        in: path
+        name: employeeId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: AddEmployee
+      tags:
+      - Community
+  /employee:
+    get:
+      consumes:
+      - application/json
+      description: GetAllEmployees
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Employee'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: GetAllEmployees
+      tags:
+      - Employee
+    post:
+      consumes:
+      - application/json
+      description: CreateEmployee
+      parameters:
+      - description: Create employee
+        in: body
+        name: employee
+        required: true
+        schema:
+          $ref: '#/definitions/model.Employee'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Employee'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: CreateEmployee
+      tags:
+      - Employee
+  /employee/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: DeleteEmployee
+      parameters:
+      - description: ID of the employee to be deleted
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: DeleteEmployee
+      tags:
+      - Employee
+    get:
+      consumes:
+      - application/json
+      description: GetEmployeeById
+      parameters:
+      - description: Id of employee
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Employee'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: GetEmployeeById
+      tags:
+      - Employee
+    put:
+      consumes:
+      - application/json
+      description: UpdateEmployee
+      parameters:
+      - description: ID of the employee to be updated
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated employee
+        in: body
+        name: employee
+        required: true
+        schema:
+          $ref: '#/definitions/model.Employee'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Employee'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: UpdateEmployee
+      tags:
+      - Employee
+  /knowledgeentry:
+    get:
+      consumes:
+      - application/json
+      description: GetAllEntries
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.KnowledgeEntry'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: GetAllEntries
+      tags:
+      - KnowledgeEntry
+    post:
+      consumes:
+      - application/json
+      description: CreateEntry
+      parameters:
+      - description: Create knowledgeentry
+        in: body
+        name: knowledgeentry
+        required: true
+        schema:
+          $ref: '#/definitions/model.KnowledgeEntry'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.KnowledgeEntry'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: CreateEntry
+      tags:
+      - KnowledgeEntry
+  /knowledgeentry/{id}:
+    get:
+      consumes:
+      - application/json
+      description: GetEntryById
+      parameters:
+      - description: Id of knowledgeentry
+        format: int
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.KnowledgeEntry'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: GetEntryById
+      tags:
+      - KnowledgeEntry
+    put:
+      consumes:
+      - application/json
+      description: UpdateEntry
+      parameters:
+      - description: ID of the KnowledgeEntry to be updated
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated knowledgeentry
+        in: body
+        name: KnowledgeEntryVersion
+        required: true
+        schema:
+          $ref: '#/definitions/model.KnowledgeEntryVersion'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.KnowledgeEntryVersion'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: UpdateEntry
+      tags:
+      - KnowledgeEntry
+  /knowledgeentry/community/{id}:
+    get:
+      consumes:
+      - application/json
+      description: GetEntriesByCommunity
+      parameters:
+      - description: Id of Community
+        format: int
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.KnowledgeEntry'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: GetEntriesByCommunity
+      tags:
+      - KnowledgeEntry
+  /knowledgeentry/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: DeleteEntry
+      parameters:
+      - description: ID of the KnowledgeEntryVersion to be deleted
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: DeleteEntry
+      tags:
+      - KnowledgeEntry
+  /knowledgeentry/version/{id}:
+    get:
+      consumes:
+      - application/json
+      description: GetEntryVersionById
+      parameters:
+      - description: Id of knowledgeentry
+        format: int
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.KnowledgeEntry'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: GetEntryVersionById
+      tags:
+      - KnowledgeEntry
+  /knowledgeentry/versions/{id}:
+    get:
+      consumes:
+      - application/json
+      description: GetAllEntryVersionsByEntry
+      parameters:
+      - description: Id of knowledgeentry
+        format: int
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.KnowledgeEntry'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: GetAllEntryVersionsByEntry
+      tags:
+      - KnowledgeEntry
+swagger: "2.0"
