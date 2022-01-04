@@ -49,26 +49,6 @@ func (repository *EmployeeRepository) GetEmployeeById(id string) (*model.Employe
 	return &entry, nil
 }
 
-func (repository *EmployeeRepository) GetEmployeeByFullName(surname string, name string) ([]model.Employee, error) {
-	checkIfAlive()
-
-	query := fmt.Sprintf("SELECT * FROM TestSchema.Community WHERE surname = @surname && name = @name;")
-
-	// Execute query
-	rows, err := db.QueryContext(ctx, query)
-	if err != nil {
-		return nil, err
-	}
-
-	defer rows.Close()
-
-	var list []model.Employee
-
-	scan.Row(list, rows)
-
-	return list, nil
-}
-
 func (repository *EmployeeRepository) AddEmployee(employee *model.Employee) (*model.Employee, error) {
 	checkIfAlive()
 

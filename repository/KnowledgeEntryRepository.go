@@ -32,7 +32,7 @@ func (repository *KnowledgeEntryRepository) GetAllKnowledgeEntries() ([]model.Kn
 func (repository *KnowledgeEntryRepository) GetKnowledgeEntryById(id string) (*model.KnowledgeEntry, error) {
 	checkIfAlive()
 
-	query := fmt.Sprintf("SELECT * FROM kdb.KnowledgeEntry WHERE kdb.KnowledgeEntry.KnowledgeEntryId =  %s;", id)
+	query := fmt.Sprintf("SELECT * FROM kdb.KnowledgeEntry WHERE kdb.KnowledgeEntry.KnowledgeEntryId = %s;", id)
 
 	// Execute query
 	rows, err := db.QueryContext(ctx, query)
@@ -45,26 +45,6 @@ func (repository *KnowledgeEntryRepository) GetKnowledgeEntryById(id string) (*m
 	var entry model.KnowledgeEntry
 
 	scan.Row(&entry, rows)
-
-	return &entry, nil
-}
-
-func (repository *KnowledgeEntryRepository) GetKnowledgeEntryByTitle(title string) (*model.KnowledgeEntry, error) {
-	checkIfAlive()
-
-	query := fmt.Sprintf("SELECT * FROM TestSchema.KnowledgeEntry WHERE id = @title;")
-
-	// Execute query
-	rows, err := db.QueryContext(ctx, query)
-	if err != nil {
-		return &model.KnowledgeEntry{}, err
-	}
-
-	defer rows.Close()
-
-	var entry model.KnowledgeEntry
-
-	scan.Row(entry, rows)
 
 	return &entry, nil
 }

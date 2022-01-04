@@ -20,6 +20,7 @@ import (
 
 // @host      localhost:8080
 func main() {
+	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
 	docs.SwaggerInfo.Title = "Knowledge Database"
 

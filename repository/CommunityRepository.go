@@ -49,26 +49,6 @@ func (repository *CommunityRepository) GetCommunityById(id string) (*model.Commu
 	return &entry, nil
 }
 
-func (repository *CommunityRepository) GetCommunityByName(name string) (*model.Community, error) {
-	checkIfAlive()
-
-	query := fmt.Sprintf("SELECT * FROM TestSchema.Community WHERE name = @name;")
-
-	// Execute query
-	rows, err := db.QueryContext(ctx, query)
-	if err != nil {
-		return &model.Community{}, err
-	}
-
-	defer rows.Close()
-
-	var entry model.Community
-
-	scan.Row(entry, rows)
-
-	return &entry, nil
-}
-
 func (repository *CommunityRepository) AddCommunity(community *model.Community) (*model.Community, error) {
 	checkIfAlive()
 
@@ -154,7 +134,7 @@ func (repository *CommunityRepository) RemoveEmployee(cId string, eId string) er
 func (repository *CommunityRepository) GetAllCommunityMembersById(id string) ([]model.Employee, error) {
 	checkIfAlive()
 
-	query := fmt.Sprintf("SELECT e.EmployeeId, e.Name, e.UserId FROM kdb.Employee e JOIN kdb.EmployeeCommunity ec ON ec.EmployeeID = e.EmployeeId JOIN kdb.Community c ON ec.CommunityID = c.CommunityId WHERE ec.CommunityID = %s;", id)
+	query := fmt.Sprintf("SELECT e.EmployeeId, e.Name, e.UserId, e.Disabled FROM kdb.Employee e JOIN kdb.EmployeeCommunity ec ON ec.EmployeeID = e.EmployeeId JOIN kdb.Community c ON ec.CommunityID = c.CommunityId WHERE ec.CommunityID = %s;", id)
 
 	// Execute query
 	rows, err := db.QueryContext(ctx, query)
