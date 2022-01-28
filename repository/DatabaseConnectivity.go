@@ -33,8 +33,7 @@ func connect() {
 	if err != nil {
 		log.Fatal("Error creating connection pool: ", err.Error())
 	}
-	ctx := context.Background()
-	err = db.PingContext(ctx)
+	checkIfAlive()
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -45,6 +44,7 @@ func checkIfAlive() error {
 	// Check if database is alive.
 	err := db.PingContext(ctx)
 	if err != nil {
+		log.Fatal("No connectivity!")
 		return err
 	}
 	return nil

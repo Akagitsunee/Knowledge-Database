@@ -646,7 +646,7 @@ var doc = `{
                 }
             },
             "delete": {
-                "description": "DeleteEmployee",
+                "description": "Marks Employee as disabled",
                 "consumes": [
                     "application/json"
                 ],
@@ -656,7 +656,7 @@ var doc = `{
                 "tags": [
                     "Employee"
                 ],
-                "summary": "DeleteEmployee",
+                "summary": "Disable Employee",
                 "parameters": [
                     {
                         "type": "string",
@@ -841,7 +841,7 @@ var doc = `{
         },
         "/knowledgeentry/delete/{id}": {
             "delete": {
-                "description": "DeleteEntry",
+                "description": "Marks Entry as deleted",
                 "consumes": [
                     "application/json"
                 ],
@@ -851,7 +851,7 @@ var doc = `{
                 "tags": [
                     "KnowledgeEntry"
                 ],
-                "summary": "DeleteEntry",
+                "summary": "Mark Entry as deleted",
                 "parameters": [
                     {
                         "type": "string",
@@ -1131,6 +1131,9 @@ var doc = `{
         "model.Employee": {
             "type": "object",
             "properties": {
+                "disabled": {
+                    "type": "boolean"
+                },
                 "id": {
                     "type": "string"
                 },
@@ -1153,6 +1156,9 @@ var doc = `{
                 },
                 "creatorid": {
                     "type": "integer"
+                },
+                "deleted": {
+                    "type": "boolean"
                 },
                 "id": {
                     "type": "string"

@@ -123,8 +123,8 @@ func UpdateEntry(c *gin.Context) {
 }
 
 // DeleteEntry godoc
-// @Summary      DeleteEntry
-// @Description  DeleteEntry
+// @Summary      Mark Entry as deleted
+// @Description  Marks Entry as deleted
 // @Tags         KnowledgeEntry
 // @Accept       json
 // @Produce      json

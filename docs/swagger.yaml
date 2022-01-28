@@ -19,6 +19,8 @@ definitions:
     type: object
   model.Employee:
     properties:
+      disabled:
+        type: boolean
       id:
         type: string
       name:
@@ -34,6 +36,8 @@ definitions:
         type: string
       creatorid:
         type: integer
+      deleted:
+        type: boolean
       id:
         type: string
       title:
@@ -404,7 +408,7 @@ paths:
     delete:
       consumes:
       - application/json
-      description: DeleteEmployee
+      description: Marks Employee as disabled
       parameters:
       - description: ID of the employee to be deleted
         in: path
@@ -428,7 +432,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/httputil.HTTPError'
-      summary: DeleteEmployee
+      summary: Disable Employee
       tags:
       - Employee
     get:
@@ -677,7 +681,7 @@ paths:
     delete:
       consumes:
       - application/json
-      description: DeleteEntry
+      description: Marks Entry as deleted
       parameters:
       - description: ID of the KnowledgeEntryVersion to be deleted
         in: path
@@ -701,7 +705,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/httputil.HTTPError'
-      summary: DeleteEntry
+      summary: Mark Entry as deleted
       tags:
       - KnowledgeEntry
   /knowledgeentry/version/{id}:

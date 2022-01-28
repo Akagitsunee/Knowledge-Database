@@ -631,7 +631,7 @@
                 }
             },
             "delete": {
-                "description": "DeleteEmployee",
+                "description": "Marks Employee as disabled",
                 "consumes": [
                     "application/json"
                 ],
@@ -641,7 +641,7 @@
                 "tags": [
                     "Employee"
                 ],
-                "summary": "DeleteEmployee",
+                "summary": "Disable Employee",
                 "parameters": [
                     {
                         "type": "string",
@@ -826,7 +826,7 @@
         },
         "/knowledgeentry/delete/{id}": {
             "delete": {
-                "description": "DeleteEntry",
+                "description": "Marks Entry as deleted",
                 "consumes": [
                     "application/json"
                 ],
@@ -836,7 +836,7 @@
                 "tags": [
                     "KnowledgeEntry"
                 ],
-                "summary": "DeleteEntry",
+                "summary": "Mark Entry as deleted",
                 "parameters": [
                     {
                         "type": "string",
@@ -1116,6 +1116,9 @@
         "model.Employee": {
             "type": "object",
             "properties": {
+                "disabled": {
+                    "type": "boolean"
+                },
                 "id": {
                     "type": "string"
                 },
@@ -1138,6 +1141,9 @@
                 },
                 "creatorid": {
                     "type": "integer"
+                },
+                "deleted": {
+                    "type": "boolean"
                 },
                 "id": {
                     "type": "string"

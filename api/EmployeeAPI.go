@@ -123,8 +123,8 @@ func UpdateEmployee(c *gin.Context) {
 }
 
 // DeleteEmployee godoc
-// @Summary      DeleteEmployee
-// @Description  DeleteEmployee
+// @Summary      Disable Employee
+// @Description  Marks Employee as disabled
 // @Tags         Employee
 // @Accept       json
 // @Produce      json
