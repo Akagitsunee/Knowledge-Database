@@ -56,7 +56,7 @@ definitions:
       title:
         type: string
     type: object
-host: localhost:8080
+host: 164.128.186.124/
 info:
   contact:
     name: API Support

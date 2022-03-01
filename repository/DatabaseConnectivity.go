@@ -12,7 +12,7 @@ var db *sql.DB
 
 var ctx = context.Background()
 
-var server = "localhost\\SQLEXPRESS01"
+var server = "192.168.7.33\\SQLEXPRESS"
 var user = "test"
 var password = "test"
 var database = "knowledgedb"
