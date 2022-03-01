@@ -49,7 +49,6 @@ func main() {
 	router.DELETE("/employee/:id", api.DeleteEmployee)
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	router.GET("/", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	router.GET("", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	router.Run(":8080")
 }
